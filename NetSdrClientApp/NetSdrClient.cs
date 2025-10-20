@@ -138,7 +138,7 @@ namespace NetSdrClientApp
             if (!_tcpClient.Connected)
             {
                 Console.WriteLine("No active connection.");
-                return null;
+                throw new InvalidOperationException("Not connected to a server.");
             }
 
             responseTaskSource = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
