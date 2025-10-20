@@ -121,7 +121,7 @@ namespace NetSdrClientApp.Messages
             sampleSize /= 8; // to bytes
             if (sampleSize > 4)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(sampleSize), "Sample size exceeds maximum allowed value (4 bytes).");
             }
 
             return sampleSize;
