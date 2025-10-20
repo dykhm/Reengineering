@@ -106,27 +106,38 @@ namespace NetSdrClientApp.Messages
             return success;
         }
 
-        public static IEnumerable<int> GetSamples(ushort sampleSize, byte[] body)
+        public static class SampleHelper
         {
-            sampleSize /= 8; //to bytes
-            if (sampleSize  > 4)
+            public static IEnumerable<int> GetSamples(ushort sampleSize, byte[] body)
             {
-                throw new ArgumentOutOfRangeException();
+                sampleSize = NormalizeSampleSize(sampleSize);
+
+                foreach (var sample in GetSamplesIterator(sampleSize, body))
+                {
+                    yield return sample;
+                }
             }
 
-            var bodyEnumerable = body as IEnumerable<byte>;
-            var prefixBytes = Enumerable.Range(0, 4 - sampleSize)
-                                      .Select(b => (byte)0);
-
-            while (bodyEnumerable.Count() >= sampleSize)
+            private static ushort NormalizeSampleSize(ushort sampleSize)
             {
-                yield return BitConverter.ToInt32(bodyEnumerable
-                    .Take(sampleSize)
-                    .Concat(prefixBytes)
-                    .ToArray());
-                bodyEnumerable = bodyEnumerable.Skip(sampleSize);
+                sampleSize /= 8; // to bytes
+                if (sampleSize > 4)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                return sampleSize;
+            }
+
+            private static IEnumerable<int> GetSamplesIterator(ushort sampleSize, byte[] body)
+            {
+                for (int i = 0; i < body.Length; i += sampleSize)
+                {
+                    yield return BitConverter.ToInt32(body, i);
+                }
             }
         }
+
 
         private static byte[] GetHeader(MsgTypes type, int msgLength)
         {
