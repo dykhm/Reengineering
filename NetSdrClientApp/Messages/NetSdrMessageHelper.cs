@@ -106,35 +106,32 @@ namespace NetSdrClientApp.Messages
             return success;
         }
 
-        public static class SampleHelper
+        public static IEnumerable<int> GetSamples(ushort sampleSize, byte[] body)
         {
-            public static IEnumerable<int> GetSamples(ushort sampleSize, byte[] body)
-            {
-                sampleSize = NormalizeSampleSize(sampleSize);
+            sampleSize = NormalizeSampleSize(sampleSize);
 
-                foreach (var sample in GetSamplesIterator(sampleSize, body))
-                {
-                    yield return sample;
-                }
+            foreach (var sample in GetSamplesIterator(sampleSize, body))
+            {
+                yield return sample;
+            }
+        }
+
+        private static ushort NormalizeSampleSize(ushort sampleSize)
+        {
+            sampleSize /= 8; // to bytes
+            if (sampleSize > 4)
+            {
+                throw new ArgumentOutOfRangeException();
             }
 
-            private static ushort NormalizeSampleSize(ushort sampleSize)
-            {
-                sampleSize /= 8; // to bytes
-                if (sampleSize > 4)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
+            return sampleSize;
+        }
 
-                return sampleSize;
-            }
-
-            private static IEnumerable<int> GetSamplesIterator(ushort sampleSize, byte[] body)
+        private static IEnumerable<int> GetSamplesIterator(ushort sampleSize, byte[] body)
+        {
+            for (int i = 0; i < body.Length; i += sampleSize)
             {
-                for (int i = 0; i < body.Length; i += sampleSize)
-                {
-                    yield return BitConverter.ToInt32(body, i);
-                }
+                yield return BitConverter.ToInt32(body, i);
             }
         }
 
