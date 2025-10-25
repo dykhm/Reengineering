@@ -150,7 +150,7 @@ jobs:
     dotnet test NetSdrClientAppTests -c Release       /p:CollectCoverage=true       /p:CoverletOutput=TestResults/coverage.xml       /p:CoverletOutputFormat=opencover
     ```
 - У Sonar додати крок запуску тестів:
-  ```
+
   - name: Tests with coverage (OpenCover)
     run: |
       dotnet test NetSdrClientAppTests/NetSdrClientAppTests.csproj -c Release --no-build `
@@ -158,7 +158,7 @@ jobs:
         /p:CoverletOutput=TestResults/coverage.xml `
         /p:CoverletOutputFormat=opencover
     shell: pwsh
-  ```
+
 - додати 4–6 юніт-тестів
 
 **Здати:** PR із новими тестами, скрін Coverage у Sonar.
