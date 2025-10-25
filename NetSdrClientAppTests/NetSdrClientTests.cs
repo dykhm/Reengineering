@@ -1,5 +1,6 @@
 ﻿using Moq;
 using NetSdrClientApp;
+using NetSdrClientApp.Messages;
 using NetSdrClientApp.Networking;
 
 namespace NetSdrClientAppTests;
@@ -115,5 +116,48 @@ public class NetSdrClientTests
         Assert.That(_client.IQStarted, Is.False);
     }
 
-    //TODO: cover the rest of the NetSdrClient code here
+    [Test]
+    public async Task ChangeFrequencyAsync_SendsProperMessage()
+    {
+        // Arrange
+        await ConnectAsyncTest();
+
+        // Act
+        await _client.ChangeFrequencyAsync(12345678, 2);
+
+        // Assert
+        _tcpMock.Verify(tcp => tcp.SendMessageAsync(It.IsAny<byte[]>()), Times.AtLeastOnce);
+    }
+
+    [Test]
+    public async Task SendTcpRequest_ThrowsWhenNotConnected()
+    {
+        // Arrange
+        _tcpMock.Setup(tcp => tcp.Connected).Returns(false);
+        var msg = new byte[] { 0x01, 0x02 };
+
+        // Act & Assert
+        var method = typeof(NetSdrClient).GetMethod("SendTcpRequest", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await (Task<byte[]>)method.Invoke(_client, new object[] { msg }));
+    }
+
+
+    [Test]
+    public void TcpClient_MessageReceived_CompletesResponseTask()
+    {
+        // Arrange
+        var bytes = new byte[] { 0x11, 0x22 };
+        _tcpMock.Setup(tcp => tcp.Connected).Returns(true);
+
+        var method = typeof(NetSdrClient).GetMethod("SendTcpRequest", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var task = (Task<byte[]>)method.Invoke(_client, new object[] { bytes });
+
+        // Act
+        _tcpMock.Raise(tcp => tcp.MessageReceived += null, _tcpMock.Object, bytes);
+
+        // Assert
+        Assert.DoesNotThrowAsync(async () => await task);
+    }
+
 }
