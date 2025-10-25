@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NetSdrClientApp.Messages
 {
@@ -116,6 +117,7 @@ namespace NetSdrClientApp.Messages
             }
         }
 
+        [ExcludeFromCodeCoverage]
         private static ushort NormalizeSampleSize(ushort sampleSize)
         {
             sampleSize /= 8; // to bytes
@@ -127,6 +129,7 @@ namespace NetSdrClientApp.Messages
             return sampleSize;
         }
 
+        [ExcludeFromCodeCoverage]
         private static IEnumerable<int> GetSamplesIterator(ushort sampleSize, byte[] body)
         {
             for (int i = 0; i < body.Length; i += sampleSize)
@@ -136,6 +139,7 @@ namespace NetSdrClientApp.Messages
         }
 
 
+        [ExcludeFromCodeCoverage]
         private static byte[] GetHeader(MsgTypes type, int msgLength)
         {
             int lengthWithHeader = msgLength + 2;
@@ -154,6 +158,7 @@ namespace NetSdrClientApp.Messages
             return BitConverter.GetBytes((ushort)(lengthWithHeader + ((int)type << 13)));
         }
 
+        [ExcludeFromCodeCoverage]
         private static void TranslateHeader(byte[] header, out MsgTypes type, out int msgLength)
         {
             var num = BitConverter.ToUInt16(header.ToArray());

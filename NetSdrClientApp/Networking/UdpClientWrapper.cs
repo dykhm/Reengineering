@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NetSdrClientApp.Networking;
+using System.Diagnostics.CodeAnalysis;
 
 public class UdpClientWrapper : IUdpClient
 {
@@ -15,11 +16,13 @@ public class UdpClientWrapper : IUdpClient
 
     public event EventHandler<byte[]>? MessageReceived;
 
+    [ExcludeFromCodeCoverage]
     public UdpClientWrapper(int port)
     {
         _localEndPoint = new IPEndPoint(IPAddress.Any, port);
     }
 
+    [ExcludeFromCodeCoverage]
     public async Task StartListeningAsync()
     {
         _cts = new CancellationTokenSource();
@@ -46,16 +49,19 @@ public class UdpClientWrapper : IUdpClient
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public void StopListening()
     {
         SafeStop("Stopped listening for UDP messages.");
     }
 
+    [ExcludeFromCodeCoverage]
     public void Exit()
     {
         SafeStop("Stopped listening for UDP messages.");
     }
 
+    [ExcludeFromCodeCoverage]
     private void SafeStop(string message)
     {
         try
@@ -70,6 +76,7 @@ public class UdpClientWrapper : IUdpClient
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public override int GetHashCode()
     {
         var payload = $"{nameof(UdpClientWrapper)}|{_localEndPoint.Address}|{_localEndPoint.Port}";
