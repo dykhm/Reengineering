@@ -48,25 +48,21 @@ public class UdpClientWrapper : IUdpClient
 
     public void StopListening()
     {
-        try
-        {
-            _cts?.Cancel();
-            _udpClient?.Close();
-            Console.WriteLine("Stopped listening for UDP messages.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error while stopping: {ex.Message}");
-        }
+        SafeStop("Stopped listening for UDP messages.");
     }
 
     public void Exit()
+    {
+        SafeStop("Stopped listening for UDP messages.");
+    }
+
+    private void SafeStop(string message)
     {
         try
         {
             _cts?.Cancel();
             _udpClient?.Close();
-            Console.WriteLine("Stopped listening for UDP messages.");
+            Console.WriteLine(message);
         }
         catch (Exception ex)
         {
