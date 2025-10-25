@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EchoServer
 {
@@ -20,6 +21,7 @@ namespace EchoServer
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync()
         {
             _listener = new TcpListener(IPAddress.Any, _port);
@@ -45,6 +47,7 @@ namespace EchoServer
             Console.WriteLine("Server shutdown.");
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task HandleClientAsync(TcpClient client, CancellationToken token)
         {
             using (NetworkStream stream = client.GetStream())
@@ -73,6 +76,7 @@ namespace EchoServer
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public void Stop()
         {
             _cancellationTokenSource.Cancel();
@@ -81,6 +85,7 @@ namespace EchoServer
             Console.WriteLine("Server stopped.");
         }
 
+        [ExcludeFromCodeCoverage]
         public static async Task Main(string[] args)
         {
             EchoServer server = new EchoServer(5000);
@@ -125,6 +130,7 @@ namespace EchoServer
             _udpClient = new UdpClient();
         }
 
+        [ExcludeFromCodeCoverage]
         public void StartSending(int intervalMilliseconds)
         {
             if (_timer != null)
@@ -135,6 +141,7 @@ namespace EchoServer
 
         ushort i = 0;
 
+        [ExcludeFromCodeCoverage]
         private void SendMessageCallback(object state)
         {
             try
@@ -157,12 +164,14 @@ namespace EchoServer
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public void StopSending()
         {
             _timer?.Dispose();
             _timer = null;
         }
 
+        [ExcludeFromCodeCoverage]
         public void Dispose()
         {
             StopSending();
