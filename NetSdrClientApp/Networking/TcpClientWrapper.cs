@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -76,12 +77,14 @@ namespace NetSdrClientApp.Networking
                  await SendDataAsync(data);
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task SendMessageAsync(string str)
         {
             var data = Encoding.UTF8.GetBytes(str);
             await SendDataAsync(data);
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task SendDataAsync(byte[] data)
         {
             if (Connected && _stream != null && _stream.CanWrite)
@@ -96,6 +99,7 @@ namespace NetSdrClientApp.Networking
             }
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task StartListeningAsync()
         {
             if (Connected && _stream != null && _stream.CanRead)
