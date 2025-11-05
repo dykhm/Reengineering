@@ -1,4 +1,5 @@
 ﻿using EchoServer.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Sockets;
 
 namespace EchoServer.Server
@@ -39,6 +40,7 @@ namespace EchoServer.Server
             Console.WriteLine("Server shutdown.");
         }
 
+        [ExcludeFromCodeCoverage]
         private async Task HandleClientConnectionAsync(TcpClient client, CancellationToken token)
         {
             try

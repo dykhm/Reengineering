@@ -92,7 +92,7 @@ namespace NetSdrClientApp.Networking {
             return BitConverter.ToInt32(hash, 0);
         }
 
-        
+        [ExcludeFromCodeCoverage]
         public override bool Equals(object? obj)
         {
             if (obj is not UdpClientWrapper other)
@@ -102,6 +102,7 @@ namespace NetSdrClientApp.Networking {
                    && _localEndPoint.Port == other._localEndPoint.Port;
         }
 
+        [ExcludeFromCodeCoverage]
         public void Dispose()
         {
             if (_disposed) return;

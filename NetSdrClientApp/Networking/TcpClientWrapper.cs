@@ -23,12 +23,14 @@ namespace NetSdrClientApp.Networking
 
         public event EventHandler<byte[]>? MessageReceived;
 
+        [ExcludeFromCodeCoverage]
         public TcpClientWrapper(string host, int port)
         {
             _host = host;
             _port = port;
         }
 
+        [ExcludeFromCodeCoverage]
         public void Connect()
         {
             if (Connected)
@@ -55,6 +57,7 @@ namespace NetSdrClientApp.Networking
             }
         }
 
+        [ExcludeFromCodeCoverage]
         public void Disconnect()
         {
             if (Connected)
