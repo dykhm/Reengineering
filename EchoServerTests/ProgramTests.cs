@@ -14,6 +14,7 @@ namespace EchoTspServerTests
             Assert.Pass();
         }
 
+
         [Test]
         public async Task WaitForQuitKey_ShouldExitOnQ()
         {
