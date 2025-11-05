@@ -41,6 +41,7 @@ namespace NetSdrClientApp.Networking
 
             try
             {
+                _cts?.Dispose();
                 _cts = new CancellationTokenSource();
                 _tcpClient.Connect(_host, _port);
                 _stream = _tcpClient.GetStream();
@@ -50,6 +51,7 @@ namespace NetSdrClientApp.Networking
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to connect: {ex.Message}");
+                _cts?.Dispose();
             }
         }
 
