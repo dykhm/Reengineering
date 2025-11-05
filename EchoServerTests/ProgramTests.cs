@@ -1,6 +1,6 @@
 ﻿using EchoServer;
 
-namespace EchoTspServerTests
+namespace EchoServerTests
 {
     [TestFixture]
     public class ProgramTests

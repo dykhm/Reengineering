@@ -1,7 +1,7 @@
 ﻿using EchoServer.Handlers;
 using System.Text;
 
-namespace EchoTspServerTests.Handler
+namespace EchoServerTests.Handler
 {
     [TestFixture]
     public class EchoClientHandlerTests

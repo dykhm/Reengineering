@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace EchoTspServerTests.Infrastructure
+namespace EchoServerTests.Infrastructure
 {
     [TestFixture]
     public class TcpListenerWrapperTests
