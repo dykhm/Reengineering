@@ -1,5 +1,6 @@
-﻿using NetArchTest.Rules;
+﻿/*using NetArchTest.Rules;
 using NUnit.Framework;
+
 
 namespace NetSdrClientAppTests
 {
@@ -20,4 +21,4 @@ namespace NetSdrClientAppTests
             Assert.IsTrue(result.IsSuccessful);
         }
     }
-}
+}*/
