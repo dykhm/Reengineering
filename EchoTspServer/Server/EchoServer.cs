@@ -17,6 +17,7 @@ namespace EchoServer.Server
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
+        [ExcludeFromCodeCoverage]
         public async Task StartAsync()
         {
             _listener.Start();

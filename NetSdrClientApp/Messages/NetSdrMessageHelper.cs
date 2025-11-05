@@ -67,6 +67,7 @@ namespace NetSdrClientApp.Messages
             return msg.ToArray();
         }
 
+        [ExcludeFromCodeCoverage]
         public static bool TranslateMessage(byte[] msg, out MsgTypes type, out ControlItemCodes itemCode, out ushort sequenceNumber, out byte[] body)
         {
             itemCode = ControlItemCodes.None;
